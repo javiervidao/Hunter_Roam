@@ -1,0 +1,108 @@
+esphome:
+  name: hunter-roam-esp32
+  friendly_name: Hunter Roam
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+external_components:
+  - source:
+      type: local
+      path: components
+
+logger:
+
+api:
+
+ota:
+  - platform: esphome
+
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Hunter Roam Fallback Hotspot"
+    password: "12345678"
+
+captive_portal:
+
+web_server:
+
+hunter_roam:
+    id: hunter_roam_component
+    pin: GPIO4
+
+button:
+  - platform: restart
+    name: "Hunter Roam Restart"
+
+  - platform: template
+    name: "Start Zone 1 for 10 minutes"
+    id: start_zone_1
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).startZone(1, 10) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to start zone 1");
+          } else {
+            ESP_LOGI("HunterRoam", "Zone 1 started for 10 minutes");
+          }
+
+  - platform: template
+    name: "Start Zone 2 for 10 minutes"
+    id: start_zone_2
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).startZone(2, 10) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to start zone 2");
+          } else {
+            ESP_LOGI("HunterRoam", "Zone 2 started for 10 minutes");
+          }
+
+  - platform: template
+    name: "Stop Zone 1"
+    id: stop_zone_1
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).stopZone(1) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to stop zone 1");
+          } else {
+            ESP_LOGI("HunterRoam", "Zone 1 stopped");
+          }
+
+  - platform: template
+    name: "Stop Zone 2"
+    id: stop_zone_2
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).stopZone(2) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to stop zone 2");
+          } else {
+            ESP_LOGI("HunterRoam", "Zone 2 stopped");
+          }
+
+  - platform: template
+    name: "Run Program 1"
+    id: run_program_1
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).startProgram(1) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to start program 1");
+          } else {
+            ESP_LOGI("HunterRoam", "Program 1 started");
+          }
+
+  - platform: template
+    name: "Run Program 2"
+    id: run_program_2
+    on_press:
+      - lambda: |-
+          if (id(hunter_roam_component).startProgram(2) != 0) {
+            ESP_LOGE("HunterRoam", "Failed to start program 2");
+          } else {
+            ESP_LOGI("HunterRoam", "Program 2 started");
+          }

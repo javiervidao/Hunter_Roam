@@ -1,0 +1,9 @@
+{
+  "name": "HunterRoam",
+  "version": "1.0.0",
+  "dependencies": [],
+  "documentation": "https://example.com/docs/hunter_roam",
+  "esphome_version": ">=2023.0.0",
+  "author": "Your Name",
+  "platforms": ["ESP32", "ESP8266"]
+}
